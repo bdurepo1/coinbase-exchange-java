@@ -1,7 +1,5 @@
 package com.coinbase.exchange.api;
 
-import com.coinbase.exchange.api.CoinbaseExchange;
-
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -17,7 +15,7 @@ public class CoinbaseExchangeBuilder {
         return new CoinbaseExchangeImpl(this);
     }
     public CoinbaseExchangeBuilder useDefault(){
-        url = "https://api.exchange.coinbase.com";
+        url = "https://api-public.sandbox.gdax.com";
         return this;
     }
     public CoinbaseExchangeBuilder withAPIUrl(String url)
