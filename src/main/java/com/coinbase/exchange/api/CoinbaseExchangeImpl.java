@@ -1,14 +1,13 @@
 package com.coinbase.exchange.api;
 
+import com.coinbase.exchange.api.entity.*;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import com.coinbase.exchange.api.entity.*;
 
 import javax.crypto.Mac;
 import java.io.BufferedReader;
@@ -31,7 +30,7 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         SHARED_MAC = Mac.getInstance("HmacSHA256");
     }
 
-    @Override
+
     public Account[] getAccounts() throws IOException, InvalidKeyException, NoSuchAlgorithmException, CloneNotSupportedException {
         String endpoint = "/accounts";
         String json = generateGetRequestJSON(endpoint);
@@ -40,12 +39,10 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return accounts;
     }
 
-    @Override
     public Account getAccount(String accountid) {
         return null;
     }
 
-    @Override
     public AccountHistory[] getAccountHistory(String accountid) throws CloneNotSupportedException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         Gson gson = new Gson();
         String endpoint = "/accounts/" + accountid + "/ledger";
@@ -53,7 +50,7 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return gson.fromJson(json, AccountHistory[].class);
     }
 
-    @Override
+
     public Hold[] getHolds(String accountid) throws CloneNotSupportedException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         Gson gson = new Gson();
         String endpoint = "/accounts/" + accountid + "/holds";
@@ -61,7 +58,7 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return gson.fromJson(json, Hold[].class);
     }
 
-    @Override
+
     public Order createOrder(NewOrderSingle order) throws CloneNotSupportedException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         Gson gson = new Gson();
         String body = gson.toJson(order);
@@ -70,12 +67,12 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return gson.fromJson(json, Order.class);
     }
 
-    @Override
+
     public String cancelOrder(String orderid) throws CloneNotSupportedException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         return executeDeleteRequest("/orders", orderid);
     }
 
-    @Override
+
     public Order[] getOpenOrders() throws NoSuchAlgorithmException, InvalidKeyException, CloneNotSupportedException, IOException {
         String endpoint = "/orders";
         String json = generateGetRequestJSON(endpoint);
@@ -84,7 +81,6 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return orders;
     }
 
-    @Override
     public Order getOrder(String order_id) throws CloneNotSupportedException, NoSuchAlgorithmException, InvalidKeyException, IOException {
         String endpoint = "/orders/" + order_id;
         String json = generateGetRequestJSON(endpoint);
@@ -92,7 +88,7 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return gson.fromJson(json, Order.class);
     }
 
-    @Override
+
     public Product[] getProducts() throws IOException {
         String endpoint = "/products";
         HttpGet getRequest = new HttpGet(cbURL + endpoint);
@@ -105,12 +101,12 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
         return products;
     }
 
-    @Override
+
     public Fill[] getFills() {
         return new Fill[0];
     }
 
-    @Override
+
     public String getMarketDataOrderBook(String product, String level) throws IOException {
         String endpoint = "/products/" + product + "/book";
         if(level != null)
@@ -130,7 +126,7 @@ public class CoinbaseExchangeImpl implements CoinbaseExchange {
      * @return ProductOrderBook
      * @throws IOException
      */
-    @Override
+
     public ProductOrderBook getMarketDataProductOrderBook(String product, String level) throws IOException{
         String json = getMarketDataOrderBook(product, level);
         System.out.println(json);
